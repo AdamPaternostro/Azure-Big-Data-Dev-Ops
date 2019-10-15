@@ -1,0 +1,113 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion":"1.0.0.0",
+  "parameters":{
+    "location": {
+      "type": "string",
+      "defaultValue": "East US",
+      "metadata": {
+        "description": "The location where all azure resources will be deployed."
+      },
+      "allowedValues": [
+        "East Asia",
+        "Southeast Asia",
+        "Australia East",
+        "Canada Central",
+        "North Europe",
+        "West Europe",
+        "France Central",
+        "Japan East",
+        "Korea Central",
+        "UK South",
+        "Central US",
+        "East US",
+        "East US 2",
+        "North Central US",
+        "South Central US",
+        "West Central US",
+        "West US",
+        "West US 2"
+      ]
+    },
+    "nsgName": {
+      "defaultValue": "clo-nsg",
+      "type": "string",
+      "metadata": {
+        "description": "The name of the network security group to create."
+      }
+    },
+    "vnetName": {
+      "defaultValue": "clo-vnet1",
+      "type": "string",
+      "metadata": {
+        "description": "The name of the virtual network to create."
+      }
+    },
+    "vnetCidr": {
+      "defaultValue": "10.1.0.0/16",
+      "type": "string",
+      "metadata": {
+        "description": "Vnet Address prefix"
+      }
+    },
+    "subnetCidr": {
+      "defaultValue": "10.1.25.0/16",
+      "type": "string",
+      "metadata": {
+        "description": "Cidr range for the subnet."
+      }
+    },
+    "subnetName": {
+      "defaultValue": "clo-subnet1",
+      "type": "string",
+      "metadata": {
+        "description": "The name of the subnet with in the vnet."
+      }
+    },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Username for the DS Virtual Machine."
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Password for the DS Virtual Machine."
+      }
+    },
+    "vmName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name for the DS Virtual Machine."
+      }
+    },
+    "vmSize": {
+      "type": "string",
+      "defaultValue": "Standard_D3_v2",
+      "allowedValues": [
+        "Basic_A3",
+        "Standard_A4",
+        "Standard_A5",
+        "Standard_A6",
+        "Standard_A7",
+        "Standard_A8",
+        "Standard_A9",
+        "Standard_A10",
+        "Standard_A11",
+        "Standard_D3_v2",
+        "Standard_D4_v2",
+        "Standard_D12_v2",
+        "Standard_D13_v2",
+        "Standard_D14_v2"
+      ],
+      "metadata": {
+        "description": "Size for the Virtual Machine."
+      }
+    },
+    "variables": {
+
+
+    }
+  }
+  }
