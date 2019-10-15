@@ -50,11 +50,30 @@
         "description": "Vnet Address prefix"
       }
     },
-    "subnetCidr": {
-      "defaultValue": "10.0.0.0/24",
-      "type": "string",
-      "metadata": {
-        "description": "Cidr range for the subnet."
+    "bastionHostName": {
+      "defaultValue":"clo-bastion",
+      "type":"string",
+      "metadata":{
+        "description":"Name of the Bastion host."
+      }
+    },
+    "bastionPublicIpAddressName":{
+      "defaultValue":"clo-bast-ip1",
+      "type":"string"
+    },
+    "bastionSubnetName":{
+      "defaultValue":"AzureBastionSubnet",
+      "type":"string",
+      "metadata":{
+        "description":"Subnet name for azure bastion and it has to be defined by AzureBastionSubnet. Do not change it"
+      }
+    },
+    "subnetAddressPrefix":
+    {
+      "defaultValue": "10.0.1.0/27",
+      "type":"string",
+      "metadata":{
+        "description":"Subnet prefix for azure bastion and it has to be x.x.x.x/27 range "
       }
     },
     "subnetName": {
@@ -62,6 +81,13 @@
       "type": "string",
       "metadata": {
         "description": "The name of the subnet with in the vnet."
+      }
+    },
+    "subnetCidr": {
+      "defaultValue": "10.0.0.0/24",
+      "type": "string",
+      "metadata": {
+        "description": "Cidr range for the subnet."
       }
     },
     "adminUsername": {
@@ -163,6 +189,19 @@
       }
     },
     {
+      "apiVersion":"2019-04-01",
+      "type": "Microsoft.Network/publicIpAddresses",
+      "name": "[parameters('bastionPublicIpAddressName')]",
+      "location": "[parameters('location')]",
+      "sku":{
+        "name":"Standard"
+      },
+      "properties":{
+        "publicIPAllocationMethod":"Static"
+      },
+      "tags":{}
+    },
+    {
       "apiVersion": "2019-04-01",
       "type": "Microsoft.Network/virtualNetworks",
       "name": "[parameters('vnetName')]",
@@ -181,6 +220,12 @@
             "name": "[parameters('subnetName')]",
             "properties": {
               "addressPrefix": "[variables('subnetPrefix')]"
+            }
+          },
+          {
+            "name": "[parameters('bastionSubnetName')]",
+            "properties": {
+              "addressPrefix": "[parameters('subnetAddressPrefix')]"
             }
           }
         ]
@@ -215,6 +260,31 @@
           "id": "[variables('nsgId')]"
         }
       }
+    },
+    {
+      "apiVersion":"2019-04-01",
+      "type": "Microsoft.Network/bastionHosts",
+      "name": "[parameters('bastionHostName')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIpAddresses', parameters('bastionPublicIpAddressName'))]"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name":"IpConf",
+            "properties":{
+              "subnet":{
+                "id":"[resourceId('Microsoft.Network/virtualNetworks/subnets',parameters('vnetName'),parameters('bastionSubnetName'))]"
+              },
+              "publicIPAddress":{
+                "id":"[resourceId('Microsoft.Network/publicIpAddresses',parameters('bastionPublicIpAddressName'))]"
+              }
+            }
+          }
+        ]
+      },
+      "tags":{}
     },
     {
       "apiVersion": "2019-03-01",
