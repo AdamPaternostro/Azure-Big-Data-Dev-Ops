@@ -1,0 +1,76 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vnetName": {
+      "type": "string",
+      "defaultValue": "myVirtualNetwork",
+      "metadata": {
+        "description": "The name of your VNET"
+      }
+    },
+    "vnetAddressPrefix": {
+      "type": "string",
+      "defaultValue": "10.0.0.0/16",
+      "metadata": {
+        "description": "VNET Address prefix"
+      }
+    },
+    "subnetParam": {
+      "type": "object",
+      "metadata": {
+        "description": "VNET Subnet JSON"
+      }
+    },
+    "nsgParam": {
+      "type": "object",
+      "metadata": {
+        "description": "NSG JSON"
+      }
+    }
+  },
+  "resources": [
+    {
+      "apiVersion": "2017-05-10",
+      "name": "linkedNSG",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/adampaternostro/Azure-Big-Data-Dev-Ops/master/nested/azuredeploy.nsg.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "nsgParam": {
+            "value": "[parameters('nsgParam')]"
+          }
+        }
+      },
+      "dependsOn": []
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "linkedVNET",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/adampaternostro/Azure-Sample-ARM-Template-Architecture/master/nested/azuredeploy.vnet.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vnetName": {
+            "value": "[parameters('vnetName')]"
+          },
+          "vnetAddressPrefix": {
+            "value": "[parameters('vnetAddressPrefix')]"
+          },
+          "subnetParam": {
+            "value": "[parameters('subnetParam')]"
+          }
+        }
+      },
+      "dependsOn": ["linkedNSG"]
+    }
+  ]
+}
