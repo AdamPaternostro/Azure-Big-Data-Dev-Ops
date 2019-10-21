@@ -71,6 +71,24 @@
         }
       },
       "dependsOn": ["linkedNSG"]
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "linkedStorage",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/adampaternostro/Azure-Big-Data-Dev-Ops/master/nested/azuredeploy.storage.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "storageAccountName": {
+            "value": "[parameters('storageAccountName')]"
+          }
+        }
+      },
+      "dependsOn": []
     }
   ]
 }

@@ -21,6 +21,9 @@
               "nsgName": "nsg-platform"
             }
           }
+        },
+        "storageAccountName": {
+          "value": "vmdiagnosticstorage001"
         }
       }
     }
