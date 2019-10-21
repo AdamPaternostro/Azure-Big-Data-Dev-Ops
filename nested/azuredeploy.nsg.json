@@ -13,10 +13,33 @@
             "name": "[parameters('nsgParam').nsgConfig[copyIndex()].name]",
             "location": "[resourceGroup().location]",
             "apiVersion": "2018-03-01",
-            "properties": {},
-            "copy": {
-                "name": "nsgcopy",
-                "count": "[length(parameters('nsgParam').nsgConfig)]"
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[parameters('nsgParam').nsgConfig[copyIndex()].name]",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2018-03-01",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "Allow-RDP",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound",
+                            "sourcePortRanges": [],
+                            "destinationPortRanges": [
+                                "3389"
+                            ],
+                            "destinationPortRange": ""
+                        }
+                    }
+                ]
             }
         }
     ],
