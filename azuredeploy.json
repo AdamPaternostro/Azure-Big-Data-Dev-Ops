@@ -89,6 +89,27 @@
         }
       },
       "dependsOn": []
+    },
+    {
+      "apiVersion":"2017-05-10",
+      "type": "Microsoft.Resources/deployments",
+      "name": "linkedBastion",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/adampaternostro/Azure-Big-Data-Dev-Ops/master/nested/azuredeploy.bastion.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "bastionHostName": {
+            "value": "[parameters('bastionHostName')]"
+          },
+          "bastionPublicIpAddressName": {
+            "value": "[parameters('bastionPublicIpAddressName')]"
+          }
+        }
+      },
+      "dependsOn": ["linkedNSG","linkedVNET"]
     }
   ]
 }

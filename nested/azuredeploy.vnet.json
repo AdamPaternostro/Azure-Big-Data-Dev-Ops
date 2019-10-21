@@ -10,6 +10,9 @@
         },
         "subnetParam": {
             "type": "object"
+        },
+        "bastionPublicIpAddressName": {
+            "type": "string"
         }
     },
     "variables": {},
@@ -40,6 +43,18 @@
                         }
                     }
                 ]
+            }
+        },
+        {
+            "apiVersion":"2019-04-01",
+            "type": "Microsoft.Network/publicIpAddresses",
+            "name": "[parameters('bastionPublicIpAddressName')]",
+            "location": "[resourceGroup().location]",
+            "sku":{
+                "name":"Standard"
+            },
+            "properties":{
+                "publicIPAllocationMethod":"Static"
             }
         }
     ],

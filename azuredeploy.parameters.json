@@ -4,28 +4,56 @@
   "parameters": {
     "nsgParam": {
       "value": {
-        "nsgConfig": {
-          "name": "nsg-platform"
-        },
-        "vnetName": {
+        "nsgConfig": [
+          {
+            "name": "nsg-databricks"
+          },
+          {
+            "name": "nsg-platform"
+          }
+        ]
+      }
+    },
+    "vnetName": {
           "value": "myVirtualNetwork"
         },
-        "vnetAddressPrefix": {
+    "vnetAddressPrefix": {
           "value": "10.174.8.0/24"
         },
-        "subnetParam": {
+    "subnetParam": {
           "value": {
-            "subnetConfig": {
-              "name": "subnet-platform",
-              "addressPrefix": "10.174.8.48/28",
-              "nsgName": "nsg-platform"
-            }
+            "subnetConfig": [
+              {
+                "name": "subnet-azdb-public",
+                "addressPrefix": "10.179.0.0/18",
+                "nsgName": "nsg-databricks"
+              },
+              {
+                "name": "subnet-azdb-private",
+                "addressPrefix": "10.179.64.0/18",
+                "nsgName": "nsg-databricks"
+              },
+              {
+                "name": "AzureBastionSubnet",
+                "addressPrefix": "10.174.8.64/27",
+                "nsgName": "nsg-platform"
+              },
+              {
+                "name": "subnet-platform",
+                "addressPrefix": "10.174.8.48/28",
+                "nsgName": "nsg-platform"
+              }
+            ]
           }
         },
-        "storageAccountName": {
+    "storageAccountName": {
           "value": "vmdiagnosticstorage001"
-        }
+        },
+    "bastionHostName":{
+      "value": "bastionHost001"
+    },
+    "bastionPublicIpAddressName": {
+      "values": "bastion-public-ip"
+    }
       }
     }
-  }
-}
