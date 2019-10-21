@@ -10,14 +10,14 @@
     "resources": [
         {
             "type": "Microsoft.Network/networkSecurityGroups",
-            "name": "[parameters('nsgParam').nsgConfig[copyIndex()].name]",
+            "name": "[parameters('nsgParam').nsgConfig[1].name]",
             "location": "[resourceGroup().location]",
             "apiVersion": "2018-03-01",
             "properties": {}
         },
         {
             "type": "Microsoft.Network/networkSecurityGroups",
-            "name": "[parameters('nsgParam').nsgConfig[copyIndex()].name]",
+            "name": "[parameters('nsgParam').nsgConfig[0].name]",
             "location": "[resourceGroup().location]",
             "apiVersion": "2018-03-01",
             "properties": {
