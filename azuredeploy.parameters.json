@@ -10,23 +10,6 @@
           }
         ]
       }
-    },
-    "vnetName": {
-      "value": "myVirtualNetwork"
-    },
-    "vnetAddressPrefix": {
-      "value": "10.174.0.0/24"
-    },
-    "subnetParam": {
-      "value": {
-        "subnetConfig": [
-          {
-            "name": "subnet-platform",
-            "addressPrefix": "10.174.8.48/28",
-            "nsgName": "nsg-platform"
-          }
-        ]
-      }
     }
   }
 }
