@@ -50,7 +50,7 @@
       "defaultValue":"AzureBastionSubnet",
       "type":"string",
       "metadata":{
-        "description":"Subnet name for azure bastion and it has to be defined by AzureBastionSubnet. Do not change it"
+        "description":"Subnet name for azure bastion and it has to be defined as AzureBastionSubnet. Do not change it"
       }
     },
     "subnetAddressPrefix":
@@ -319,22 +319,25 @@
           "bootDiagnostics": {
             "enabled": false
           }
-        },
-        "resources":[
-          {
-            "type": "Microsoft.Compute/virtualMachines/extensions",
-            "name": "[concat(parameters('vmName'),'/DAExtension')]",
-            "apiVersion":"2017-03-30",
-            "location":"[parameters('location')]",
-            "properties":{
-              "publisher":"Microsoft.Azure.Monitoring.DepenencyAgent",
-              "type":"DependencyAgentWindows",
-              "typeHandlerVersion":"9.5",
-              "autoUpgradeMinorVersion": true
-            }
+        }
+      },
+      "resources":[
+        {
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "name": "[concat(parameters('vmName'),'/DAExtension')]",
+          "apiVersion":"2017-03-30",
+          "location":"[parameters('location')]",
+          "dependsOn":[
+            "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
+          ],
+          "properties":{
+            "publisher":"Microsoft.Azure.Monitoring.DepenencyAgent",
+            "type":"DependencyAgentWindows",
+            "typeHandlerVersion":"9.5",
+            "autoUpgradeMinorVersion": true
           }
-        ]
-      }
+        }
+      ]
     }
   ],
   "outputs": {
