@@ -9,24 +9,9 @@
         "description": "The location where all azure resources will be deployed."
       },
       "allowedValues": [
-        "East Asia",
-        "Southeast Asia",
-        "Australia East",
-        "Canada Central",
-        "North Europe",
-        "West Europe",
-        "France Central",
-        "Japan East",
-        "Korea Central",
-        "UK South",
         "Central US",
         "East US",
-        "East US 2",
-        "North Central US",
-        "South Central US",
-        "West Central US",
-        "West US",
-        "West US 2"
+        "West US"
       ]
     },
     "nsgName": {
@@ -267,7 +252,8 @@
       "name": "[parameters('bastionHostName')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Network/publicIpAddresses', parameters('bastionPublicIpAddressName'))]"
+        "[resourceId('Microsoft.Network/publicIpAddresses', parameters('bastionPublicIpAddressName'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks',parameters('vnetName'))]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -295,7 +281,9 @@
         "Application": "DataScience"
       },
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]",
+        "[resourceId('Microsoft.Network/virtualNetworks',parameters('vnetName'))]",
+        "[resourceId('Microsoft.Network/bastionHosts',parameters('bastionHostName'))]"
       ],
       "properties": {
         "hardwareProfile": {
@@ -331,7 +319,21 @@
           "bootDiagnostics": {
             "enabled": false
           }
-        }
+        },
+        "resources":[
+          {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(parameters('vmName'),'/DAExtension')]",
+            "apiVersion":"2017-03-30",
+            "location":"[parameters('location')]",
+            "properties":{
+              "publisher":"Microsoft.Azure.Monitoring.DepenencyAgent",
+              "type":"DependencyAgentWindows",
+              "typeHandlerVersion":"9.5",
+              "autoUpgradeMinorVersion": true
+            }
+          }
+        ]
       }
     }
   ],
