@@ -6,7 +6,7 @@ You need to sign in once and set your subscription once.
 az login
 az account set -s REPLACE_ME
 resourceGroup="Azure-Big-Data-Dev-Ops"
-location="centralus"
+location="eastus"
 az group create --name $resourceGroup --location $location
 ```
 
@@ -30,6 +30,7 @@ az group deployment create \
   --resource-group       $resourceGroup \
   --template-file        azuredeploy.vnet.json \
   --parameters           @local.parameters.vnet.json
+
 
 today=`date +%Y-%m-%d-%H-%M-%S`
 deploymentName="MyDeployment-$today"
