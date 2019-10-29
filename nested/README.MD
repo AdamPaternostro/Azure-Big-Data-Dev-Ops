@@ -13,6 +13,7 @@ az group create --name $resourceGroup --location $location
 ## Test each nested template seperately
 You can run each of the below blocks from your local development machine
 ```
+
 today=`date +%Y-%m-%d-%H-%M-%S`
 deploymentName="MyDeployment-$today"
 az group deployment create \
@@ -29,6 +30,14 @@ az group deployment create \
   --resource-group       $resourceGroup \
   --template-file        azuredeploy.vnet.json \
   --parameters           @local.parameters.vnet.json
+
+today=`date +%Y-%m-%d-%H-%M-%S`
+deploymentName="MyDeployment-$today"
+az group deployment create \
+  --name                 $deploymentName \
+  --resource-group       $resourceGroup \
+  --template-file        azuredeploy.adf.json \
+  --parameters           @local.parameters.adf.json
 
 
 today=`date +%Y-%m-%d-%H-%M-%S`
