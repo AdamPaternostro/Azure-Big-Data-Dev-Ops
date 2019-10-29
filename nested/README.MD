@@ -18,8 +18,18 @@ deploymentName="MyDeployment-$today"
 az group deployment create \
   --name                 $deploymentName \
   --resource-group       $resourceGroup \
+  --template-file        azuredeploy.storage.json \
+  --parameters           @local.parameters.storage.json
+
+
+today=`date +%Y-%m-%d-%H-%M-%S`
+deploymentName="MyDeployment-$today"
+az group deployment create \
+  --name                 $deploymentName \
+  --resource-group       $resourceGroup \
   --template-file        azuredeploy.loganalytics.json \
   --parameters           @local.parameters.loganalytics.json
+
 
 today=`date +%Y-%m-%d-%H-%M-%S`
 deploymentName="MyDeployment-$today"
@@ -28,6 +38,54 @@ az group deployment create \
   --resource-group       $resourceGroup \
   --template-file        azuredeploy.keyvault.json \
   --parameters           @local.parameters.keyvault.json
+
+
+today=`date +%Y-%m-%d-%H-%M-%S`
+deploymentName="MyDeployment-$today"
+az group deployment create \
+  --name                 $deploymentName \
+  --resource-group       $resourceGroup \
+  --template-file        azuredeploy.nsg.json \
+  --parameters           @local.parameters.nsg.json
+
+
+today=`date +%Y-%m-%d-%H-%M-%S`
+deploymentName="MyDeployment-$today"
+az group deployment create \
+  --name                 $deploymentName \
+  --resource-group       $resourceGroup \
+  --template-file        azuredeploy.vnet.json \
+  --parameters           @local.parameters.vnet.json
+  
+
+############################################################
+# This is the same parameter file over and over for the VMs
+# You will see the same three parameters passed even though they may not be used.  It was to keep things simple.
+############################################################
+
+today=`date +%Y-%m-%d-%H-%M-%S`
+deploymentName="MyDeployment-$today"
+az group deployment create \
+  --name                 $deploymentName \
+  --resource-group       $resourceGroup \
+  --template-file        azuredeploy.vm-public-ip.json \
+  --parameters           @local.parameters.vm.json   
+
+today=`date +%Y-%m-%d-%H-%M-%S`
+deploymentName="MyDeployment-$today"
+az group deployment create \
+  --name                 $deploymentName \
+  --resource-group       $resourceGroup \
+  --template-file        azuredeploy.vm-nic.json \
+  --parameters           @local.parameters.vm.json  
+
+today=`date +%Y-%m-%d-%H-%M-%S`
+deploymentName="MyDeployment-$today"
+az group deployment create \
+  --name                 $deploymentName \
+  --resource-group       $resourceGroup \
+  --template-file        azuredeploy.vm.json \
+  --parameters           @local.parameters.vm.json  
 
 
 ```
