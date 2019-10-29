@@ -23,25 +23,89 @@
             "properties": {
                 "securityRules": [
                     {
-                        "name": "Allow-RDP",
+                        "name": "bastion-in-allow",
                         "properties": {
                             "protocol": "Tcp",
                             "sourcePortRange": "*",
                             "sourceAddressPrefix": "*",
+                            "destinationPortRange": "443",
                             "destinationAddressPrefix": "*",
                             "access": "Allow",
                             "priority": 100,
-                            "direction": "Inbound",
-                            "sourcePortRanges": [],
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "bastion-control-in-allow",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "GatewayManager",
+                            "destinationPortRange": "443",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 120,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "bastion-in-deny",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Deny",
+                            "priority": 900,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "bastion-vnet-out-allow",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "*",
                             "destinationPortRanges": [
+                                "22",
                                 "3389"
                             ],
-                            "destinationPortRange": ""
+                            "destinationAddressPrefix": "VirtualNetwork",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Outbound"
+                        }
+                    },
+                    {
+                        "name": "bastion-azure-out-allow",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationPortRange": "443",
+                            "destinationAddressPrefix": "AzureCloud",
+                            "access": "Allow",
+                            "priority": 120,
+                            "direction": "Outbound"
+                        }
+                    },
+                    {
+                        "name": "bastion-out-deny",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationPortRange": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Deny",
+                            "priority": 900,
+                            "direction": "Outbound"
                         }
                     }
                 ]
             }
-        }
-    ],
+                    }
+                ],
     "outputs": {}
 }

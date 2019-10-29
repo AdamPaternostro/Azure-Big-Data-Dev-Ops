@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "vnetName": {
-            "value": "myVirtualNetwork"
+            "value": "clo-vnet"
         },
         "vnetAddressPrefix": {
-            "value": "10.174.8.0/24"
+            "value": "10.179.0.0/16"
         },
         "bastionPublicIpAddressName": {
             "value": "bastion-public-ip"
@@ -16,22 +16,22 @@
                 "subnetConfig": [
                     {
                         "name": "subnet-azdb-public",
-                        "addressPrefix": "10.179.0.0/18",
+                        "addressPrefix": "10.179.1.0/24",
                         "nsgName": "nsg-databricks"
                     },
                     {
                         "name": "subnet-azdb-private",
-                        "addressPrefix": "10.179.64.0/18",
+                        "addressPrefix": "10.179.64.0/24",
                         "nsgName": "nsg-databricks"
                     },
                     {
                         "name": "AzureBastionSubnet",
-                        "addressPrefix": "10.174.8.64/27",
+                        "addressPrefix": "10.179.8.64/27",
                         "nsgName": "nsg-platform"
                     },
                     {
                         "name": "subnet-platform",
-                        "addressPrefix": "10.174.8.48/28",
+                        "addressPrefix": "10.179.8.48/28",
                         "nsgName": "nsg-platform"
                     }
                 ]

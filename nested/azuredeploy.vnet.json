@@ -38,7 +38,21 @@
                                 "addressPrefix": "[parameters('subnetParam').subnetConfig[copyIndex('subnets')].addressPrefix]",
                                 "networkSecurityGroup": {
                                     "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('subnetParam').subnetConfig[copyIndex('subnets')].nsgName)]"
-                                }
+                                },
+                                "serviceEndpoints": [
+                                    {
+                                        "service": "Microsoft.AzureActiveDirectory"
+                                    },
+                                    {
+                                        "service": "Microsoft.KeyVault"
+                                    },
+                                    {
+                                        "service": "Microsoft.Sql"
+                                    },
+                                    {
+                                        "service": "Microsoft.Storage"
+                                    }
+                                ]
                             }
                         }
                     }
