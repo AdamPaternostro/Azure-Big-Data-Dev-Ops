@@ -1,0 +1,34 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "keyVaultName": {
+            "type": "String",
+            "metadata": {
+                "description": "Specifies the name of the Key Vault."
+            }
+        }
+    },
+    "resources": [
+        {
+            "name": "[parameters('keyVaultName')]",
+            "type": "Microsoft.KeyVault/vaults",
+            "apiVersion": "2016-10-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "sku": {
+                    "family": "A",
+                    "name": "Standard"
+                },
+                "tenantId": "[subscription().tenantId]",
+                "accessPolicies": [
+                ],
+                "enabledForDeployment": "true",
+                "enabledForDiskEncryption": "true",
+                "enabledForTemplateDeployment": "true",
+                "enableSoftDelete": "true",
+                "enablePurgeProtection": "true"
+            }
+        }
+    ]
+}
