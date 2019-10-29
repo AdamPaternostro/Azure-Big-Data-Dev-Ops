@@ -331,7 +331,7 @@
             "[concat('Microsoft.Compute/virtualMachines/', parameters('vmName'))]"
           ],
           "properties":{
-            "publisher":"Microsoft.Azure.Monitoring.DepenencyAgent",
+            "publisher":"Microsoft.Azure.Monitoring.DependencyAgent",
             "type":"DependencyAgentWindows",
             "typeHandlerVersion":"9.5",
             "autoUpgradeMinorVersion": true
