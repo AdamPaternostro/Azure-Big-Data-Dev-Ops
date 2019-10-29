@@ -7,6 +7,12 @@
     },
     "bastionPublicIpAddressName": {
       "value": "bastion-public-ip"
+    },
+    "vnetName": {
+      "value": "clo-vnet"
+    },
+    "bastionSubnetName": {
+      "value": "AzureBastionSubnet"
     }
     }
   }

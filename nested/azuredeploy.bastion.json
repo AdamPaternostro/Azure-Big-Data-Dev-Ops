@@ -7,46 +7,21 @@
     },
     "bastionPublicIpAddressName": {
       "type": "string"
+    },
+    "vnetName": {
+      "type": "string"
+    },
+    "bastionSubnetName": {
+      "type": "string"
     }
   },
   "variables": {},
   "resources": [
     {
-      "apiVersion": "2018-06-01",
-      "type": "Microsoft.Network/virtualNetworks",
-      "name": "[parameters('vnetName')]",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "[parameters('vnetAddressPrefix')]"
-          ]
-        },
-        "copy": [
-          {
-            "name": "subnets",
-            "count": "[length(parameters('subnetParam').subnetConfig)]",
-            "input": {
-              "name": "[parameters('subnetParam').subnetConfig[copyIndex('subnets')].name]",
-              "properties": {
-                "addressPrefix": "[parameters('subnetParam').subnetConfig[copyIndex('subnets')].addressPrefix]",
-                "networkSecurityGroup": {
-                  "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('subnetParam').subnetConfig[copyIndex('subnets')].nsgName)]"
-                }
-              }
-            }
-          }
-        ]
-      }
-    },
-    {
       "apiVersion":"2019-04-01",
       "type": "Microsoft.Network/bastionHosts",
       "name": "[parameters('bastionHostName')]",
       "location": "[resourceGroup().location]",
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/publicIpAddresses', parameters('bastionPublicIpAddressName'))]"
-      ],
       "properties": {
         "ipConfigurations": [
           {
@@ -62,6 +37,8 @@
           }
         ]
       },
+      "tags":{}
+    }
   ],
   "outputs": {}
 }
