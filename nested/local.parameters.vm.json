@@ -27,7 +27,8 @@
             "value": "vmdiagnosticstorage001"
         },
         "vnetName": {
-            "value": "myVirtualNetwork"
+            "value": "clo-vnet"
         }
     }
 }
+
