@@ -1,5 +1,7 @@
 # Azure-Big-Data-Dev-Ops
 
+![alt tag](https://raw.githubusercontent.com/adampaternostro/Azure-Big-Data-Dev-Ops/master/Architecture.png)
+
 ```
 # Login
 az login

@@ -18,6 +18,24 @@ deploymentName="MyDeployment-$today"
 az group deployment create \
   --name                 $deploymentName \
   --resource-group       $resourceGroup \
+  --template-file        azuredeploy.nsg.json \
+  --parameters           @local.parameters.nsg.json
+
+
+today=`date +%Y-%m-%d-%H-%M-%S`
+deploymentName="MyDeployment-$today"
+az group deployment create \
+  --name                 $deploymentName \
+  --resource-group       $resourceGroup \
+  --template-file        azuredeploy.vnet.json \
+  --parameters           @local.parameters.vnet.json
+
+
+today=`date +%Y-%m-%d-%H-%M-%S`
+deploymentName="MyDeployment-$today"
+az group deployment create \
+  --name                 $deploymentName \
+  --resource-group       $resourceGroup \
   --template-file        azuredeploy.storage.json \
   --parameters           @local.parameters.storage.json
 
@@ -38,24 +56,6 @@ az group deployment create \
   --resource-group       $resourceGroup \
   --template-file        azuredeploy.keyvault.json \
   --parameters           @local.parameters.keyvault.json
-
-
-today=`date +%Y-%m-%d-%H-%M-%S`
-deploymentName="MyDeployment-$today"
-az group deployment create \
-  --name                 $deploymentName \
-  --resource-group       $resourceGroup \
-  --template-file        azuredeploy.nsg.json \
-  --parameters           @local.parameters.nsg.json
-
-
-today=`date +%Y-%m-%d-%H-%M-%S`
-deploymentName="MyDeployment-$today"
-az group deployment create \
-  --name                 $deploymentName \
-  --resource-group       $resourceGroup \
-  --template-file        azuredeploy.vnet.json \
-  --parameters           @local.parameters.vnet.json
   
 
 ############################################################
