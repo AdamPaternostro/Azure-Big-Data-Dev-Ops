@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmParam": {
+      "value": {
+        "vmConfig": [
+          {
+            "comment": "DataScience",
+            "vmName": "vm-clo-dsvm",
+            "vmSize": "Standard_DS2_v2",
+            "publicIPAddress": "false",
+            "availabilitySet": "",
+            "nsg": "nsg-platform",
+            "subnet": "subnet-platform"
+          }
+        ],
+        "adminLogin": "vmAdminUser",
+        "adminPassword": "MyS3re@tPassw0rd",
+        "publisher": "microsoft-dsvm",
+        "offer": "dsvm-windows",
+        "sku": "server-2016",
+        "version": "latest"
+      }
+    },
+    "storageAccountName": {
+      "value": "vmdiagnosticstorage001"
+    },
+    "vnetName": {
+      "value": "clo-vnet"
+    }
+  }
+}

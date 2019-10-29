@@ -40,6 +40,13 @@ az group deployment create \
   --template-file        azuredeploy.adf.json \
   --parameters           @local.parameters.adf.json
 
+today=`date +%Y-%m-%d-%H-%M-%S`
+deploymentName="MyDeployment-$today"
+az group deployment create \
+  --name                 $deploymentName \
+  --resource-group       $resourceGroup \
+  --template-file        azuredeploy.bastion.json \
+  --parameters           @local.parameters.bastion.json
 
 today=`date +%Y-%m-%d-%H-%M-%S`
 deploymentName="MyDeployment-$today"
@@ -49,6 +56,13 @@ az group deployment create \
   --template-file        azuredeploy.storage.json \
   --parameters           @local.parameters.storage.json
 
+today=`date +%Y-%m-%d-%H-%M-%S`
+deploymentName="MyDeployment-$today"
+az group deployment create \
+  --name                 $deploymentName \
+  --resource-group       $resourceGroup \
+  --template-file        azuredeploy.datalake.json \
+  --parameters           @local.parameters.datalake.json
 
 today=`date +%Y-%m-%d-%H-%M-%S`
 deploymentName="MyDeployment-$today"
@@ -96,6 +110,42 @@ az group deployment create \
   --resource-group       $resourceGroup \
   --template-file        azuredeploy.vm.json \
   --parameters           @local.parameters.vm.json  
+############################################################
+#               DSVM deploymnet                            #
+############################################################
+today=`date +%Y-%m-%d-%H-%M-%S`
+deploymentName="MyDeployment-$today"
+az group deployment create \
+  --name                 $deploymentName \
+  --resource-group       $resourceGroup \
+  --template-file        azuredeploy.vm-public-ip.json \
+  --parameters           @local.parameters.dsvm.json   
 
+today=`date +%Y-%m-%d-%H-%M-%S`
+deploymentName="MyDeployment-$today"
+az group deployment create \
+  --name                 $deploymentName \
+  --resource-group       $resourceGroup \
+  --template-file        azuredeploy.vm-nic.json \
+  --parameters           @local.parameters.dsvm.json  
+
+today=`date +%Y-%m-%d-%H-%M-%S`
+deploymentName="MyDeployment-$today"
+az group deployment create \
+  --name                 $deploymentName \
+  --resource-group       $resourceGroup \
+  --template-file        azuredeploy.dsvm.json \
+  --parameters           @local.parameters.dsvm.json  
+
+############################################################
+#               ADB deploymnet                            #
+############################################################
+today=`date +%Y-%m-%d-%H-%M-%S`
+deploymentName="MyDeployment-$today"
+az group deployment create \
+  --name                 $deploymentName \
+  --resource-group       $resourceGroup \
+  --template-file        azuredeploy.adb.json \
+  --parameters           @local.parameters.adb.json   
 
 ```
