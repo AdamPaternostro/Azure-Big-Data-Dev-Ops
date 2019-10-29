@@ -9,7 +9,7 @@ az login
 # Script parameters
 subscriptionId=<<REMOVED>>
 resourceGroup="Azure-Big-Data-Dev-Ops"
-location="centralus"
+location="eastus"
 today=`date +%Y-%m-%d-%H-%M-%S`
 deploymentName="MyDeployment-$today"
 
