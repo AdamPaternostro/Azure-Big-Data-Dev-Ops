@@ -6,63 +6,44 @@
       "value": {
         "nsgConfig": [
           {
-            "name": "nsg-databricks"
+            "name": "nsg-platform"
           },
           {
-            "name": "nsg-platform"
+            "name": "nsg-databricks"
           }
         ]
       }
     },
-      "vnetName": {
-        "value": "clo-vnet"
-      },
-      "vnetAddressPrefix": {
-        "value": "10.179.0.0/16"
-      },
-      "bastionPublicIpAddressName": {
-        "value": "bastion-public-ip"
-      },
-      "subnetParam": {
-        "value": {
-          "subnetConfig": [
-            {
-              "name": "subnet-azdb-public",
-              "addressPrefix": "10.179.1.0/24",
-              "nsgName": "nsg-databricks"
-            },
-            {
-              "name": "subnet-azdb-private",
-              "addressPrefix": "10.179.64.0/24",
-              "nsgName": "nsg-databricks"
-            },
-            {
-              "name": "AzureBastionSubnet",
-              "addressPrefix": "10.179.8.64/27",
-              "nsgName": "nsg-platform"
-            },
-            {
-              "name": "subnet-platform",
-              "addressPrefix": "10.179.8.48/28",
-              "nsgName": "nsg-platform"
-            }
-          ]
-        }
-      },
-    "storageAccountName": {
-      "value": "vmdiagnosticstorage001"
+    "vnetName": {
+      "value": "clo-vnet"
     },
-    "bastionHostName": {
-      "value": "bastionHost001"
+    "vnetAddressPrefix": {
+      "value": "10.179.0.0/16"
     },
     "bastionPublicIpAddressName": {
       "value": "bastion-public-ip"
     },
-    "vnetName": {
-      "value": "clo-vnet"
-    },
     "bastionSubnetName": {
       "value": "AzureBastionSubnet"
+    },
+    "bastionHostName": {
+      "value": "bastionHost001"
+    },
+    "storageAccountName": {
+      "value": "vmdiagnosticstorage001"
+    },
+    "dataLakeName": {
+      "value": "clodatalake"
+    },
+    "adfname": {
+      "value": "cloadfsanbbox"
+    },
+
+    "keyVaultName": {
+      "value": "DataDevOpsKeyVault"
+    },
+    "logworkspaceName": {
+      "value": "cloLogAnalytics001"
     },
     "workspaceName": {
       "value": "clo-adb-workspace"
@@ -76,17 +57,31 @@
     "pricingTier": {
       "value": "premium"
     },
-    "adfname": {
-      "value": "clo-adf"
-    },
-    "dataLakeName": {
-      "value": "clodatalake"
-    },
-    "keyVaultName": {
-      "value": "DataDevOpsKeyVault"
-    },
-    "logworkspaceName": {
-      "value": "DataDevOpsLogAnlaytics"
+    "subnetParam": {
+      "value": {
+        "subnetConfig": [
+          {
+            "name": "subnet-azdb-public",
+            "addressPrefix": "10.179.1.0/24",
+            "nsgName": "nsg-databricks"
+          },
+          {
+            "name": "subnet-azdb-private",
+            "addressPrefix": "10.179.64.0/24",
+            "nsgName": "nsg-databricks"
+          },
+          {
+            "name": "AzureBastionSubnet",
+            "addressPrefix": "10.179.8.64/27",
+            "nsgName": "nsg-platform"
+          },
+          {
+            "name": "subnet-platform",
+            "addressPrefix": "10.179.8.48/28",
+            "nsgName": "nsg-platform"
+          }
+        ]
+      }
     },
     "dsVmParam": {
       "value": {

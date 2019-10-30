@@ -20,10 +20,86 @@
         "description": "VNET Address prefix"
       }
     },
+    "bastionPublicIpAddressName": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure bastion service public ip address name"
+      }
+    },
+    "bastionSubnetName": {
+      "type": "string",
+      "metadata": {
+        "description": "Bastion service subnet name"
+      }
+    },
+    "bastionHostName": {
+      "type": "string",
+      "metadata": {
+        "description": "Bastion service hostname"
+      }
+    },
     "subnetParam": {
       "type": "object",
       "metadata": {
         "description": "VNET Subnet JSON"
+      }
+    },
+    "storageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Storage account name for vm diagnostics"
+      }
+    },
+    "dataLakeName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name for the Azure storage Gen2"
+      }
+    },
+    "adfname": {
+      "type": "string"
+    },
+
+    "keyVaultName": {
+      "type": "string"
+    },
+    "logworkspaceName": {
+      "type": "string"
+    },
+    "workspaceName": {
+      "type": "string",
+      "metadata": {
+        "description": "Azure databricks workspace name"
+      }
+    },
+    "privateSubnetName": {
+      "type": "string",
+      "metadata": {
+        "description": "Private subnet for azure databricks vnet injection"
+      }
+    },
+    "publicSubnetName": {
+      "type": "string",
+      "metadata": {
+        "description": "Public subnet for azure databricks vnet injection"
+      }
+    },
+    "pricingTier": {
+      "type": "string",
+      "metadata": {
+        "description": "Pricing plan for databricks"
+      }
+    },
+    "vmParam": {
+      "type": "object",
+      "metadata": {
+        "description": "VM configuration JSON for IR"
+      }
+    },
+    "dsVmParam": {
+      "type": "object",
+      "metadata": {
+        "description": "DSVM configuration JSON"
       }
     }
   },
@@ -65,10 +141,40 @@
           },
           "subnetParam": {
             "value": "[parameters('subnetParam')]"
+          },
+          "bastionPublicIpAddressName": {
+            "value": "[parameters('bastionPublicIpAddressName')]"
           }
         }
       },
       "dependsOn": ["linkedNSG"]
+    },
+    {
+      "apiVersion":"2017-05-10",
+      "type": "Microsoft.Resources/deployments",
+      "name": "linkedBastion",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/adampaternostro/Azure-Big-Data-Dev-Ops/master/nested/azuredeploy.bastion.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "bastionHostName": {
+            "value": "[parameters('bastionHostName')]"
+          },
+          "bastionPublicIpAddressName": {
+            "value": "[parameters('bastionPublicIpAddressName')]"
+          },
+          "vnetName": {
+            "value": "[parameters('vnetName')]"
+          },
+          "bastionSubnetName": {
+            "value": "[parameters('bastionSubnetName')]"
+          }
+        }
+      },
+      "dependsOn": ["linkedNSG","linkedVNET"]
     },
     {
       "apiVersion": "2017-05-10",
@@ -89,25 +195,262 @@
       "dependsOn": []
     },
     {
-      "apiVersion":"2017-05-10",
+      "apiVersion": "2017-05-10",
+      "name": "linkedDatalake",
       "type": "Microsoft.Resources/deployments",
-      "name": "linkedBastion",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "https://raw.githubusercontent.com/adampaternostro/Azure-Big-Data-Dev-Ops/master/nested/azuredeploy.bastion.json",
+          "uri": "https://raw.githubusercontent.com/adampaternostro/Azure-Big-Data-Dev-Ops/master/nested/azuredeploy.datalake.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "bastionHostName": {
-            "value": "[parameters('bastionHostName')]"
+          "dataLakeName": {
+            "value": "[parameters('dataLakeName')]"
+          }
+        }
+      },
+      "dependsOn": []
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "linkedAdf",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/adampaternostro/Azure-Big-Data-Dev-Ops/master/nested/azuredeploy.adf.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "adfname": {
+            "value": "[parameters('adfname')]"
+          }
+        }
+      },
+      "dependsOn": []
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "linkedOMS",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/adampaternostro/Azure-Big-Data-Dev-Ops/master/nested/azuredeploy.loganalytics.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "logworkspaceName": {
+            "value": "[parameters('logworkspaceName')]"
+          }
+        }
+      },
+      "dependsOn": []
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "linkedkeyVault",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/adampaternostro/Azure-Big-Data-Dev-Ops/master/nested/azuredeploy.loganalytics.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "keyVaultName": {
+            "value": "[parameters('keyVaultName')]"
+          }
+        }
+      },
+      "dependsOn": []
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "linkedADB",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/adampaternostro/Azure-Big-Data-Dev-Ops/master/nested/azuredeploy.adb.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "workspaceName": {
+            "value": "[parameters('workspaceName')]"
           },
-          "bastionPublicIpAddressName": {
-            "value": "[parameters('bastionPublicIpAddressName')]"
+          "vnetName": {
+            "value": "[parameters('vnetName')]"
+          },
+          "privateSubnetName": {
+            "value": "[parameters('privateSubnetName')]"
+          },
+          "publicSubnetName": {
+            "value": "[parameters('publicSubnetName')]"
+          },
+          "pricingTier": {
+            "value": "[parameters('pricingTier')]"
           }
         }
       },
       "dependsOn": ["linkedNSG","linkedVNET"]
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "linkedVMPublicIP",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/adampaternostro/Azure-Big-Data-Dev-Ops/master/nested/azuredeploy.vm-public-ip.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmParam": {
+            "value": "[parameters('vmParam')]"
+          },
+          "storageAccountName": {
+            "value": "[parameters('storageAccountName')]"
+          },
+          "vnetName": {
+            "value": "[parameters('vnetName')]"
+          }
+        }
+      },
+      "dependsOn": []
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "linkedVMNIC",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/adampaternostro/Azure-Big-Data-Dev-Ops/master/nested/azuredeploy.vm-nic.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmParam": {
+            "value": "[parameters('vmParam')]"
+          },
+          "storageAccountName": {
+            "value": "[parameters('storageAccountName')]"
+          },
+          "vnetName": {
+            "value": "[parameters('vnetName')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "linkedVNET",
+        "linkedVMPublicIP"
+      ]
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "linkedVM",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/adampaternostro/Azure-Big-Data-Dev-Ops/master/nested/azuredeploy.vm.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmParam": {
+            "value": "[parameters('vmParam')]"
+          },
+          "storageAccountName": {
+            "value": "[parameters('storageAccountName')]"
+          },
+          "vnetName": {
+            "value": "[parameters('vnetName')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "linkedStorage",
+        "linkedVMNIC"
+      ]
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "linkedDSVMPublicIP",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/adampaternostro/Azure-Big-Data-Dev-Ops/master/nested/azuredeploy.dsvm-public-ip.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmParam": {
+            "value": "[parameters('dsVmParam')]"
+          },
+          "storageAccountName": {
+            "value": "[parameters('storageAccountName')]"
+          },
+          "vnetName": {
+            "value": "[parameters('vnetName')]"
+          }
+        }
+      },
+      "dependsOn": []
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "linkedDSVMNIC",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/adampaternostro/Azure-Big-Data-Dev-Ops/master/nested/azuredeploy.dsvm-nic.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmParam": {
+            "value": "[parameters('dsVmParam')]"
+          },
+          "storageAccountName": {
+            "value": "[parameters('storageAccountName')]"
+          },
+          "vnetName": {
+            "value": "[parameters('vnetName')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "linkedVNET",
+        "linkedDSVMPublicIP"
+      ]
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "linkedDSVM",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/adampaternostro/Azure-Big-Data-Dev-Ops/master/nested/azuredeploy.dsvm.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmParam": {
+            "value": "[parameters('dsVmParam')]"
+          },
+          "storageAccountName": {
+            "value": "[parameters('storageAccountName')]"
+          },
+          "vnetName": {
+            "value": "[parameters('vnetName')]"
+          }
+        }
+      },
+      "dependsOn": [
+        "linkedStorage",
+        "linkedDSVMNIC"
+      ]
     }
   ]
 }
