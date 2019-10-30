@@ -421,8 +421,7 @@
         }
       },
       "dependsOn": [
-        "linkedVNET",
-        "linkedDSVMPublicIP"
+        "linkedVNET"
       ]
     },
     {
