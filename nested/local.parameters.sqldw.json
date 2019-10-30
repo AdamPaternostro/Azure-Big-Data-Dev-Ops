@@ -1,27 +1,21 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "databaseCollation": {
-      "value": "SQL_Latin1_General_CP1_CI_AS"
-    },
-    "databaseEdition": {
-      "value": "DataWarehouse"
-    },
-    "databaseName": {
-      "value": "closqldw"
-    },
-    "RequestedServiceObjectiveName": {
-      "value": "DW100"
+    "dwserverName": {
+      "value": "closqldwserver"
     },
     "serverAdminLogin": {
       "value": "cloadmin"
     },
     "serverAdminLoginPassword": {
-      "value": "MyS3cretPassword$"
+      "value": "MyS3cretPassword"
     },
-    "serverName": {
-      "value": "clo-dw-server"
+    "dataWarehouseName": {
+      "value": "clodw101"
+    },
+    "RequestedServiceObjectiveName": {
+      "value": "DW400c"
     }
   }
 }

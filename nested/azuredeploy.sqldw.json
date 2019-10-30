@@ -2,46 +2,43 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "serverName": {
-      "type": "string"
+    "dwserverName": {
+      "type": "string",
+      "minLength": 1
     },
     "serverAdminLogin": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "serverAdminLoginPassword": {
-      "type": "string"
+      "type": "securestring"
     },
-    "databaseName": {
-      "type": "string"
+    "dataWarehouseName": {
+      "type": "string",
+      "minLength": 1
     },
     "databaseCollation": {
       "type": "string",
+      "minLength": 1,
       "defaultValue": "SQL_Latin1_General_CP1_CI_AS"
     },
     "databaseEdition": {
       "type": "string",
-      "defaultValue": "DataWarehouse",
-      "allowedValues": [
-        "DataWarehouse"
-      ]
+      "defaultValue": "DataWarehouse"
     },
     "RequestedServiceObjectiveName": {
       "type": "string",
-      "defaultValue": "DW400",
       "metadata": {
         "description": "Describes the performance level for Edition"
       }
     }
   },
-  "variables": {
-    "dwserverName": "[concat(parameters('serverName'), uniqueString(resourceGroup().id))]"
-  },
   "resources": [
     {
-      "name": "[variables('dwserverName')]",
+      "name": "[parameters('dwserverName')]",
       "type": "Microsoft.Sql/servers",
       "location": "[resourceGroup().location]",
-      "apiVersion": "2014-10-01-preview",
+      "apiVersion": "2014-04-01-preview",
       "dependsOn": [ ],
       "properties": {
         "administratorLogin": "[parameters('serverAdminLogin')]",
@@ -52,9 +49,9 @@
           "name": "AllowAllWindowsAzureIps",
           "type": "firewallrules",
           "location": "[resourceGroup().location]",
-          "apiVersion": "2017-10-01-preview",
+          "apiVersion": "2014-04-01-preview",
           "dependsOn": [
-            "[resourceId('Microsoft.Sql/servers', variables('dwserverName'))]"
+            "[resourceId('Microsoft.Sql/servers', parameters('dwserverName'))]"
           ],
           "properties": {
             "startIpAddress": "0.0.0.0",
@@ -62,12 +59,12 @@
           }
         },
         {
-          "name": "[parameters('databaseName')]",
+          "name": "[parameters('dataWarehouseName')]",
           "type": "databases",
           "location": "[resourceGroup().location]",
-          "apiVersion": "2017-10-01-preview",
+          "apiVersion": "2014-04-01-preview",
           "dependsOn": [
-            "[resourceId('Microsoft.Sql/servers', variables('dwserverName'))]"
+            "[resourceId('Microsoft.Sql/servers', parameters('dwserverName'))]"
           ],
           "properties": {
             "collation": "[parameters('databaseCollation')]",
