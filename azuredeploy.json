@@ -255,7 +255,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "https://raw.githubusercontent.com/adampaternostro/Azure-Big-Data-Dev-Ops/master/nested/azuredeploy.loganalytics.json",
+          "uri": "https://raw.githubusercontent.com/adampaternostro/Azure-Big-Data-Dev-Ops/master/nested/azuredeploy.keyvault.json",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -452,5 +452,8 @@
         "linkedDSVMNIC"
       ]
     }
-  ]
+  ],
+  "outputs": {
+
+  }
 }
