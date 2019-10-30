@@ -39,14 +39,6 @@
                                 "networkSecurityGroup": {
                                     "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('subnetParam').subnetConfig[copyIndex('subnets')].nsgName)]"
                                 },
-                                "delegations": [
-                                    {
-                                        "name": "databricks-del",
-                                        "properties": {
-                                            "serviceName": "Microsoft.Databricks/workspaces"
-                                        }
-                                    }
-                                ],
                                 "serviceEndpoints": [
                                     {
                                         "service": "Microsoft.AzureActiveDirectory"
