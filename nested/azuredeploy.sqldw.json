@@ -2,104 +2,80 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "sqlServerName": {
-      "defaultValue": "[concat('sql', uniqueString(resourceGroup().id))]",
-      "type": "string",
-      "metadata": {
-        "description": "The SQL Logical Server name."
-      }
+    "serverName": {
+      "type": "string"
     },
-    "sqlAdministratorLogin": {
-      "type": "string",
-      "metadata": {
-        "description": "The administrator username of the SQL Server."
-      }
+    "serverAdminLogin": {
+      "type": "string"
     },
-    "sqlAdministratorPassword": {
-      "type": "securestring",
-      "metadata": {
-        "description": "The administrator password of the SQL Server."
-      }
+    "serverAdminLoginPassword": {
+      "type": "string"
     },
-    "dataWarehouseName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the Data Warehouse."
-      }
+    "databaseName": {
+      "type": "string"
     },
-    "transparentDataEncryption": {
-      "defaultValue": "Enabled",
+    "databaseCollation": {
       "type": "string",
+      "defaultValue": "SQL_Latin1_General_CP1_CI_AS"
+    },
+    "databaseEdition": {
+      "type": "string",
+      "defaultValue": "DataWarehouse",
       "allowedValues": [
-        "Enabled",
-        "Disabled"
-      ],
-      "metadata": {
-        "description": "Enable/Disable Transparent Data Encryption"
-      }
+        "DataWarehouse"
+      ]
     },
-    "serviceLevelObjective": {
+    "RequestedServiceObjectiveName": {
+      "type": "string",
       "defaultValue": "DW400",
-      "type": "string",
       "metadata": {
-        "description": "Performance Level"
-      }
-    },
-    "location": {
-      "defaultValue": "[resourceGroup().location]",
-      "type": "string",
-      "metadata": {
-        "description": "Resource location"
+        "description": "Describes the performance level for Edition"
       }
     }
   },
-  "variables": {},
+  "variables": {
+    "dwserverName": "[concat(parameters('serverName'), uniqueString(resourceGroup().id))]"
+  },
   "resources": [
     {
-      "name": "[parameters('sqlServerName')]",
+      "name": "[variables('dwserverName')]",
       "type": "Microsoft.Sql/servers",
-      "apiVersion": "2015-05-01-preview",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "2014-10-01-preview",
+      "dependsOn": [ ],
       "properties": {
-        "administratorLogin": "[parameters('sqlAdministratorLogin')]",
-        "administratorLoginPassword": "[parameters('sqlAdministratorPassword')]",
-        "version": "12.0"
+        "administratorLogin": "[parameters('serverAdminLogin')]",
+        "administratorLoginPassword": "[parameters('serverAdminLoginPassword')]"
       },
       "resources": [
         {
-          "type": "databases",
-          "kind": "v12.0,user,datawarehouse",
-          "name": "[parameters('dataWarehouseName')]",
-          "apiVersion": "2015-05-01-preview",
-          "location": "[parameters('location')]",
-          "properties": {
-            "edition": "DataWarehouse",
-            "status": "Online",
-            "serviceLevelObjective": "[parameters('serviceLevelObjective')]",
-            "collation": "SQL_Latin1_General_CP1_CI_AS",
-            "readScale": "Disabled",
-            "zoneRedundant": false,
-            "isUpgradeRequested": false
-          },
+          "name": "AllowAllWindowsAzureIps",
+          "type": "firewallrules",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2017-10-01-preview",
           "dependsOn": [
-            "[parameters('sqlServerName')]"
+            "[resourceId('Microsoft.Sql/servers', variables('dwserverName'))]"
           ],
-          "resources": [
-            {
-              "comments": "Transparent Data Encryption",
-              "name": "current",
-              "type": "transparentDataEncryption",
-              "apiVersion": "2017-03-01-preview",
-              "properties": {
-                "status": "[parameters('transparentDataEncryption')]"
-              },
-              "dependsOn": [
-                "[parameters('dataWarehouseName')]"
-              ]
-            }
-          ]
+          "properties": {
+            "startIpAddress": "0.0.0.0",
+            "endIpAddress": "0.0.0.0"
+          }
+        },
+        {
+          "name": "[parameters('databaseName')]",
+          "type": "databases",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2017-10-01-preview",
+          "dependsOn": [
+            "[resourceId('Microsoft.Sql/servers', variables('dwserverName'))]"
+          ],
+          "properties": {
+            "collation": "[parameters('databaseCollation')]",
+            "edition": "[parameters('databaseEdition')]",
+            "requestedServiceObjectiveName": "[parameters('RequestedServiceObjectiveName')]"
+          }
         }
       ]
-    }
-  ]
+    }],
+  "outputs": {}
 }

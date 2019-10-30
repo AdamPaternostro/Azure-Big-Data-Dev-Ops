@@ -10,14 +10,12 @@
     },
     "vnetName": {
       "type": "string",
-      "defaultValue": "myVirtualNetwork",
       "metadata": {
         "description": "The name of your VNET"
       }
     },
     "vnetAddressPrefix": {
       "type": "string",
-      "defaultValue": "10.0.0.0/16",
       "metadata": {
         "description": "VNET Address prefix"
       }

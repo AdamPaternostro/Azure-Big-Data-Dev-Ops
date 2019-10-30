@@ -15,7 +15,7 @@
       }
     },
     "vnetName": {
-      "value": "myVirtualNetwork"
+      "value": "clo-vnet"
     },
     "vnetAddressPrefix": {
       "value": "10.174.8.0/24"
@@ -54,6 +54,54 @@
     },
     "bastionPublicIpAddressName": {
       "value": "bastion-public-ip"
+    },
+    "vnetName": {
+      "value": "clo-vnet"
+    },
+    "bastionSubnetName": {
+      "value": "AzureBastionSubnet"
+    },
+    "workspaceName": {
+      "value": "clo-adb-workspace"
+    },
+    "vnetName": {
+      "value": "clo-vnet"
+    },
+    "privateSubnetName": {
+      "value": "subnet-azdb-private"
+    },
+    "publicSubnetName": {
+      "value": "subnet-azdb-public"
+    },
+    "pricingTier": {
+      "value": "premium"
+    },
+    "adfname": {
+      "value": "clo-adf"
+    },
+    "dataLakeName": {
+      "value": "clodatalake"
+    },
+    "dsVmParam": {
+      "value": {
+        "vmConfig": [
+          {
+            "comment": "DataScience",
+            "vmName": "vm-clo-dsvm",
+            "vmSize": "Standard_DS2_v2",
+            "publicIPAddress": "false",
+            "availabilitySet": "",
+            "nsg": "nsg-platform",
+            "subnet": "subnet-platform"
+          }
+        ],
+        "adminLogin": "vmAdminUser",
+        "adminPassword": "MyS3re@tPassw0rd",
+        "publisher": "microsoft-dsvm",
+        "offer": "dsvm-windows",
+        "sku": "server-2016",
+        "version": "latest"
+      }
     }
   }
 }
