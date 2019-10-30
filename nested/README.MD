@@ -118,7 +118,7 @@ deploymentName="MyDeployment-$today"
 az group deployment create \
   --name                 $deploymentName \
   --resource-group       $resourceGroup \
-  --template-file        azuredeploy.vm-public-ip.json \
+  --template-file        azuredeploy.dsvm-public-ip.json \
   --parameters           @local.parameters.dsvm.json   
 
 today=`date +%Y-%m-%d-%H-%M-%S`
@@ -126,7 +126,7 @@ deploymentName="MyDeployment-$today"
 az group deployment create \
   --name                 $deploymentName \
   --resource-group       $resourceGroup \
-  --template-file        azuredeploy.vm-nic.json \
+  --template-file        azuredeploy.dsvm-nic.json \
   --parameters           @local.parameters.dsvm.json  
 
 today=`date +%Y-%m-%d-%H-%M-%S`
@@ -148,15 +148,5 @@ az group deployment create \
   --template-file        azuredeploy.adb.json \
   --parameters           @local.parameters.adb.json   
 
-############################################################
-#               SQLDW deploymnet                            #
-############################################################
-today=`date +%Y-%m-%d-%H-%M-%S`
-deploymentName="MyDeployment-$today"
-az group deployment create \
-  --name                 $deploymentName \
-  --resource-group       $resourceGroup \
-  --template-file        azuredeploy.sqldw.json \
-  --parameters           @local.parameters.sqldw.json  
 
 ```

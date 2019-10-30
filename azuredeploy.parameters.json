@@ -14,38 +14,41 @@
         ]
       }
     },
-    "vnetName": {
-      "value": "clo-vnet"
-    },
-    "vnetAddressPrefix": {
-      "value": "10.174.8.0/24"
-    },
-    "subnetParam": {
-      "value": {
-        "subnetConfig": [
-          {
-            "name": "subnet-azdb-public",
-            "addressPrefix": "10.179.0.0/18",
-            "nsgName": "nsg-databricks"
-          },
-          {
-            "name": "subnet-azdb-private",
-            "addressPrefix": "10.179.64.0/18",
-            "nsgName": "nsg-databricks"
-          },
-          {
-            "name": "AzureBastionSubnet",
-            "addressPrefix": "10.174.8.64/27",
-            "nsgName": "nsg-platform"
-          },
-          {
-            "name": "subnet-platform",
-            "addressPrefix": "10.174.8.48/28",
-            "nsgName": "nsg-platform"
-          }
-        ]
-      }
-    },
+      "vnetName": {
+        "value": "clo-vnet"
+      },
+      "vnetAddressPrefix": {
+        "value": "10.179.0.0/16"
+      },
+      "bastionPublicIpAddressName": {
+        "value": "bastion-public-ip"
+      },
+      "subnetParam": {
+        "value": {
+          "subnetConfig": [
+            {
+              "name": "subnet-azdb-public",
+              "addressPrefix": "10.179.1.0/24",
+              "nsgName": "nsg-databricks"
+            },
+            {
+              "name": "subnet-azdb-private",
+              "addressPrefix": "10.179.64.0/24",
+              "nsgName": "nsg-databricks"
+            },
+            {
+              "name": "AzureBastionSubnet",
+              "addressPrefix": "10.179.8.64/27",
+              "nsgName": "nsg-platform"
+            },
+            {
+              "name": "subnet-platform",
+              "addressPrefix": "10.179.8.48/28",
+              "nsgName": "nsg-platform"
+            }
+          ]
+        }
+      },
     "storageAccountName": {
       "value": "vmdiagnosticstorage001"
     },
@@ -64,9 +67,6 @@
     "workspaceName": {
       "value": "clo-adb-workspace"
     },
-    "vnetName": {
-      "value": "clo-vnet"
-    },
     "privateSubnetName": {
       "value": "subnet-azdb-private"
     },
@@ -81,6 +81,12 @@
     },
     "dataLakeName": {
       "value": "clodatalake"
+    },
+    "keyVaultName": {
+      "value": "DataDevOpsKeyVault"
+    },
+    "logworkspaceName": {
+      "value": "DataDevOpsLogAnlaytics"
     },
     "dsVmParam": {
       "value": {
@@ -100,6 +106,27 @@
         "publisher": "microsoft-dsvm",
         "offer": "dsvm-windows",
         "sku": "server-2016",
+        "version": "latest"
+      }
+    },
+    "vmParam": {
+      "value": {
+        "vmConfig": [
+          {
+            "comment": "ADF IR",
+            "vmName": "vm-adf-ir",
+            "vmSize": "Standard_DS2_v2",
+            "publicIPAddress": "false",
+            "availabilitySet": "",
+            "nsg": "nsg-platform",
+            "subnet": "subnet-platform"
+          }
+        ],
+        "adminLogin": "vmAdminUser",
+        "adminPassword": "MyS3re@tPassw0rd",
+        "publisher": "MicrosoftWindowsServer",
+        "offer": "WindowsServer",
+        "sku": "2019-Datacenter",
         "version": "latest"
       }
     }

@@ -2,7 +2,7 @@
     "$schema": "https://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "workspaceName": {
+        "logworkspaceName": {
             "type": "String",
             "metadata": {
               "description": "Specifies the name of the workspace."
@@ -12,7 +12,7 @@
     "resources": [
         {
             "type": "Microsoft.OperationalInsights/workspaces",
-            "name": "[parameters('workspaceName')]",
+            "name": "[parameters('logworkspaceName')]",
             "apiVersion": "2015-11-01-preview",
             "location": "[resourceGroup().location]",
             "properties": {
