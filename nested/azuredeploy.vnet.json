@@ -15,7 +15,8 @@
             "type": "string"
         }
     },
-    "variables": {},
+    "variables": {
+    },
     "resources": [
         {
             "apiVersion": "2018-06-01",
@@ -39,6 +40,9 @@
                                 "networkSecurityGroup": {
                                     "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('subnetParam').subnetConfig[copyIndex('subnets')].nsgName)]"
                                 },
+
+                                "delegations": "[if(equals(parameters('subnetParam').subnetConfig[copyIndex('subnets')].serviceName, ''), json('null'), json(concat('[{ \"name\" : \"',parameters('subnetParam').subnetConfig[copyIndex('subnets')].name,'-del','\", \"properties\":{\"serviceName\":\"', parameters('subnetParam').subnetConfig[copyIndex('subnets')].serviceName, '\"}}]')))]",
+
                                 "serviceEndpoints": [
                                     {
                                         "service": "Microsoft.AzureActiveDirectory"
@@ -55,22 +59,24 @@
                                 ]
                             }
                         }
+
                     }
                 ]
             }
         },
         {
-            "apiVersion":"2019-04-01",
+            "apiVersion": "2019-04-01",
             "type": "Microsoft.Network/publicIpAddresses",
             "name": "[parameters('bastionPublicIpAddressName')]",
             "location": "[resourceGroup().location]",
-            "sku":{
-                "name":"Standard"
+            "sku": {
+                "name": "Standard"
             },
-            "properties":{
-                "publicIPAllocationMethod":"Static"
+            "properties": {
+                "publicIPAllocationMethod": "Static"
             }
         }
     ],
-    "outputs": {}
+    "outputs": {
+    }
 }
