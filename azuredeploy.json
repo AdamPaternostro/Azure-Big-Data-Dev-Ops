@@ -415,7 +415,7 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "vmParam": {
+          "dsVmParam": {
             "value": "[parameters('dsVmParam')]"
           },
           "storageAccountName": {
@@ -439,7 +439,7 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "vmParam": {
+          "dsVmParam": {
             "value": "[parameters('dsVmParam')]"
           },
           "storageAccountName": {
@@ -451,7 +451,9 @@
         }
       },
       "dependsOn": [
-        "linkedVNET"
+        "linkedVNET",
+        "linkedDSVMPublicIP",
+        "linkedStorage"
       ]
     },
     {
@@ -465,7 +467,7 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "vmParam": {
+          "dsVmParam": {
             "value": "[parameters('dsVmParam')]"
           },
           "storageAccountName": {
