@@ -101,6 +101,36 @@
       "metadata": {
         "description": "DSVM configuration JSON"
       }
+    },
+    "dwserverName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "serverAdminLogin": {
+      "type": "string",
+      "minLength": 1
+    },
+    "serverAdminLoginPassword": {
+      "type": "securestring"
+    },
+    "dataWarehouseName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "databaseCollation": {
+      "type": "string",
+      "minLength": 1,
+      "defaultValue": "SQL_Latin1_General_CP1_CI_AS"
+    },
+    "databaseEdition": {
+      "type": "string",
+      "defaultValue": "DataWarehouse"
+    },
+    "RequestedServiceObjectiveName": {
+      "type": "string",
+      "metadata": {
+        "description": "Describes the performance level for Edition"
+      }
     }
   },
   "resources": [
@@ -450,6 +480,42 @@
         "linkedStorage",
         "linkedDSVMNIC"
       ]
+    },
+    {
+      "apiVersion": "2017-05-10",
+      "name": "linkedSQLDW",
+      "type": "Microsoft.Resources/deployments",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/adampaternostro/Azure-Big-Data-Dev-Ops/master/nested/azuredeploy.sqldw.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "dwserverName": {
+            "value": "[parameters('dwserverName')]"
+          },
+          "serverAdminLogin": {
+            "value": "[parameters('serverAdminLogin')]"
+          },
+          "serverAdminLoginPassword": {
+            "value": "[parameters('serverAdminLoginPassword')]"
+          },
+          "dataWarehouseName": {
+            "value": "[parameters('dataWarehouseName')]"
+          },
+          "databaseCollation": {
+            "value": "[parameters('databaseCollation')]"
+          },
+          "databaseEdition": {
+            "value": "[parameters('databaseEdition')]"
+          },
+          "RequestedServiceObjectiveName": {
+            "value": "[parameters('RequestedServiceObjectiveName')]"
+          }
+        }
+      },
+      "dependsOn": []
     }
   ],
   "outputs": {

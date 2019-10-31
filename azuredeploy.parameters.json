@@ -124,6 +124,21 @@
         "sku": "2019-Datacenter",
         "version": "latest"
       }
+    },
+    "dwserverName": {
+      "value": "closqldwserver"
+    },
+    "serverAdminLogin": {
+      "value": "cloadmin"
+    },
+    "serverAdminLoginPassword": {
+      "value": "MyS3cretPassword"
+    },
+    "dataWarehouseName": {
+      "value": "clodw101"
+    },
+    "RequestedServiceObjectiveName": {
+      "value": "DW400c"
     }
   }
 }
