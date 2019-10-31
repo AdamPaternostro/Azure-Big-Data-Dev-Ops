@@ -17,22 +17,26 @@
                     {
                         "name": "subnet-azdb-public",
                         "addressPrefix": "10.179.1.0/24",
-                        "nsgName": "nsg-databricks"
+                        "nsgName": "nsg-databricks",
+                        "serviceName" : "Microsoft.Databricks/workspaces"
                     },
                     {
                         "name": "subnet-azdb-private",
                         "addressPrefix": "10.179.64.0/24",
-                        "nsgName": "nsg-databricks"
+                        "nsgName": "nsg-databricks",
+                        "serviceName" : "Microsoft.Databricks/workspaces"
                     },
                     {
                         "name": "AzureBastionSubnet",
                         "addressPrefix": "10.179.8.64/27",
-                        "nsgName": "nsg-platform"
+                        "nsgName": "nsg-platform",
+                        "serviceName" : ""
                     },
                     {
                         "name": "subnet-platform",
                         "addressPrefix": "10.179.8.48/28",
-                        "nsgName": "nsg-platform"
+                        "nsgName": "nsg-platform",
+                        "serviceName" : ""
                     }
                 ]
             }
